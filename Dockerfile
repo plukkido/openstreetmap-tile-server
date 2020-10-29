@@ -7,6 +7,7 @@ FROM ubuntu:18.04
 ENV TZ=UTC
 ENV AUTOVACUUM=on
 ENV UPDATES=disabled
+ENV UPDATE_CRON="*  *    * * *"
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install dependencies
@@ -163,7 +164,7 @@ RUN chmod +x /usr/bin/openstreetmap-tiles-update-expire \
  && mkdir /var/log/tiles \
  && chmod a+rw /var/log/tiles \
  && ln -s /home/renderer/src/mod_tile/osmosis-db_replag /usr/bin/osmosis-db_replag \
- && echo "*  *    * * *   renderer    openstreetmap-tiles-update-expire\n" >> /etc/crontab
+ && echo "$UPDATE_CRON   renderer    openstreetmap-tiles-update-expire\n" >> /etc/crontab
 
 # Install trim_osc.py helper script
 RUN mkdir -p /home/renderer/src \
